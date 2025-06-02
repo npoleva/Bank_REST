@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: npoleva
+      changes:
+        - createTable:
+            tableName: card_transfers
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from_card_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_card_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(19, 4)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: initiator_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment
+                  type: VARCHAR(1000)
+
+        - addForeignKeyConstraint:
+            baseTableName: card_transfers
+            baseColumnNames: from_card_id
+            referencedTableName: cards
+            referencedColumnNames: id
+            constraintName: fk_card_transfers_from_card
+
+        - addForeignKeyConstraint:
+            baseTableName: card_transfers
+            baseColumnNames: to_card_id
+            referencedTableName: cards
+            referencedColumnNames: id
+            constraintName: fk_card_transfers_to_card
+
+        - addForeignKeyConstraint:
+            baseTableName: card_transfers
+            baseColumnNames: initiator_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_card_transfers_initiator
