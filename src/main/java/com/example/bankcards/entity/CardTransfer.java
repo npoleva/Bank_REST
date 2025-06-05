@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CardTransfer {
     @Id
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
@@ -36,7 +36,6 @@ public class CardTransfer {
     @JoinColumn(name = "initiator_id", nullable = false)
     private User initiator;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CardTransferStatus status;
@@ -50,5 +49,6 @@ public class CardTransfer {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.status = CardTransferStatus.FAILED;
     }
 }

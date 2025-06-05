@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "cards")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+@RequiredArgsConstructor()
 @Getter
 @Setter
 public class Card {
@@ -32,15 +32,19 @@ public class Card {
     private User owner;
 
     @Column(name = "expiration_date", nullable = false)
-    @NonNull
     private LocalDate expirationDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    @NonNull
     private CardStatus status;
 
-    @NonNull
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
+
+    @PrePersist
+    public void prePersist() {
+        status = CardStatus.ACTIVE;
+        expirationDate = LocalDate.now().plusMonths(5);
+        balance = BigDecimal.ZERO;
+    }
 }
