@@ -19,8 +19,6 @@ public class SwaggerOpenApiConfig {
                         .title("Bank Cards API")
                         .version("1.0.0")
                         .description("Документация API для управления банковскими картами"))
-                .addSecurityItem(new SecurityRequirement()
-                        .addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName,
                                 new SecurityScheme()
