@@ -17,7 +17,6 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CardControllerImpl implements CardController {
     private final CardService cardService;
-    private final UserService userService;
 
     @Override
     public CardDto createCard(CardDto cardDto) {

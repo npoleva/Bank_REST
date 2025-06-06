@@ -79,7 +79,7 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public Page<CardDto> getUserCards(Long userId, Pageable p) {
-        Page<Card> cards = cardRepository.findByOwnerIdAndStatus(userId, CardStatus.ACTIVE, p);
+        Page<Card> cards = cardRepository.findByOwnerId(userId, p);
         return cards.map(CardMapper::toDto);
     }
 

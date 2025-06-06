@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
-    Page<Card> findByOwnerUsername(String username, Pageable pageable);
-    Page<Card> findByStatus(CardStatus status, Pageable pageable);
-    Page<Card> findByOwnerIdAndStatus(Long ownerId, CardStatus status, Pageable pageable);
+    Page<Card> findByOwnerId(Long id, Pageable pageable);
+    Page<Card> findByOwner_IdAndStatus(Long ownerId, CardStatus status, Pageable pageable);
     boolean existsByIdAndOwnerId(Long cardId, Long ownerId);
 }
