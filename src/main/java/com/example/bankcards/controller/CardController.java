@@ -67,9 +67,20 @@ public interface CardController {
             @PathVariable Long cardId,
             @AuthenticationPrincipal CustomUserDetails userDetails);
 
-    @PatchMapping("/{cardId}/balance")
+    @PatchMapping("/{cardId}/deposit")
     @Operation(
             summary = "Изменить баланс карты"
     )
-    CardDto changeBalance(@PathVariable Long cardId, @RequestParam BigDecimal amount);
+    CardDto depositToCard(@PathVariable Long cardId, @RequestParam BigDecimal amount);
+
+    @PatchMapping("/{cardId}/withdraw")
+    @Operation(
+            summary = "Снять деньги с карты"
+    )
+    @PreAuthorize("@cardServiceImpl.belongsToUser(#cardId, #userDetails.id)")
+    CardDto withdrawFromCard(
+            @PathVariable Long cardId,
+            @RequestParam BigDecimal amount,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    );
 }

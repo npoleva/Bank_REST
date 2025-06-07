@@ -13,9 +13,7 @@ public class CardRequestMapper {
         CardRequest cardRequest = new CardRequest(
                 card,
                 requester,
-                CardRequestType.valueOf(dto.getRequestType()),
-                CardRequestStatus.valueOf(dto.getRequestStatus()),
-                dto.getCreatedAt() != null ? dto.getCreatedAt() : java.time.LocalDateTime.now()
+                CardRequestType.valueOf(dto.getRequestType())
         );
 
         cardRequest.setComment(dto.getComment());

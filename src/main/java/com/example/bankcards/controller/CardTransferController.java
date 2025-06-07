@@ -18,6 +18,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public interface CardTransferController {
     @PostMapping
+    @PreAuthorize("@cardTransferServiceImpl.isValidTransfer(#dto)")
     @Operation(
             summary = "Создать перевод с карты на карту",
             description = "Возвращает созданный перевод с обновленным статусом"

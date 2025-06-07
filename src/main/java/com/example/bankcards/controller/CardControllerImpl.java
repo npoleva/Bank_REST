@@ -59,7 +59,17 @@ public class CardControllerImpl implements CardController {
     }
 
     @Override
-    public CardDto changeBalance(Long cardId, BigDecimal amount) {
+    public CardDto depositToCard(Long cardId, BigDecimal amount) {
         return cardService.changeBalance(cardId, amount);
     }
+
+    @Override
+    public CardDto withdrawFromCard(
+            Long cardId,
+            BigDecimal amount,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        return cardService.changeBalance(cardId, amount);
+    }
+
 }

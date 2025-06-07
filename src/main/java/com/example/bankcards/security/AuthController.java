@@ -6,6 +6,8 @@ import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.service.UserService;
 
 import com.example.bankcards.util.JwtUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/public")
 @RequiredArgsConstructor
+@Tag(name = "Аутентификация")
 public class AuthController {
 
     private final UserService userService;
@@ -27,12 +30,19 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
+    @Operation(
+            summary = "Зарегистрироваться"
+    )
     public ResponseEntity<UserDto> register(@RequestBody RegisterRequest request) {
         UserDto user = userService.createUser(request.toUserDto(), request.getPassword());
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/login")
+    @Operation(
+            summary = "Войти",
+            description = "Возвращает токен авторизации"
+    )
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
             authenticationManager.authenticate(

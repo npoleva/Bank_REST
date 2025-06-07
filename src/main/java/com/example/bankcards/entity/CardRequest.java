@@ -31,7 +31,6 @@ public class CardRequest {
     @Column(name = "request_type", nullable = false)
     private CardRequestType requestType;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
     @Column(name = "request_status", nullable = false)
     private CardRequestStatus requestStatus;
@@ -39,7 +38,6 @@ public class CardRequest {
     @Column(length = 1000)
     private String comment;
 
-    @NonNull
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -49,6 +47,7 @@ public class CardRequest {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.requestStatus = CardRequestStatus.PENDING;
     }
 
     @PreUpdate

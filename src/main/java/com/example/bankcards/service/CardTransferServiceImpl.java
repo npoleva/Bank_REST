@@ -27,6 +27,7 @@ public class CardTransferServiceImpl implements CardTransferService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final CardService cardService;
+    private final CardServiceImpl cardServiceImpl;
 
     @Override
     public CardTransferDto createTransfer(CardTransferDto dto) {
@@ -114,5 +115,12 @@ public class CardTransferServiceImpl implements CardTransferService {
     @Override
     public void deleteTransfer(Long transferId) {
         cardTransferRepository.deleteById(transferId);
+    }
+
+    public boolean isValidTransfer(CardTransferDto dto) {
+        Long fromCardId = dto.getFromCardId();
+        Long initiatorId = dto.getInitiatorId();
+
+        return cardServiceImpl.belongsToUser(fromCardId, initiatorId);
     }
 }

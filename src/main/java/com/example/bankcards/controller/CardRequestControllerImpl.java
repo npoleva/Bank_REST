@@ -2,10 +2,12 @@ package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.CardRequestDto;
 import com.example.bankcards.entity.CardRequestStatus;
+import com.example.bankcards.security.CustomUserDetails;
 import com.example.bankcards.service.CardRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,7 +16,10 @@ public class CardRequestControllerImpl implements CardRequestController {
     private final CardRequestService service;
 
     @Override
-    public CardRequestDto create(@RequestBody CardRequestDto dto) {
+    public CardRequestDto create(
+            @RequestBody CardRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
         return service.createRequest(dto);
     }
 

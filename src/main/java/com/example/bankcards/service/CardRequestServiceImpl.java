@@ -18,14 +18,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 @RequiredArgsConstructor
 public class CardRequestServiceImpl implements CardRequestService {
     private final CardRequestRepository cardRequestRepository;
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
+    private final CardServiceImpl cardServiceImpl;
 
     @Override
     public CardRequestDto createRequest(CardRequestDto dto) {
@@ -75,5 +74,12 @@ public class CardRequestServiceImpl implements CardRequestService {
     @Override
     public boolean existsActiveRequestForCard(Long cardId) {
         return cardRequestRepository.existsByCardIdAndRequestStatus(cardId, CardRequestStatus.PENDING);
+    }
+
+    public boolean isValidRequest(CardRequestDto dto) {
+        Long cardId = dto.getCardId();
+        Long requesterId = dto.getRequesterId();
+
+        return cardServiceImpl.belongsToUser(cardId, requesterId);
     }
 }

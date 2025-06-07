@@ -1,12 +1,14 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.CardRequestDto;
+import com.example.bankcards.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/card-requests")
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "bearerAuth")
 public interface CardRequestController {
     @PostMapping
+    @PreAuthorize("@cardRequestServiceImpl.isValidRequest(#dto)")
     @Operation(summary = "Создать запрос на блокировку/разблокировку карты", description = "Возвращает созданный запрос")
-    CardRequestDto create(@RequestBody CardRequestDto dto);
+    CardRequestDto create(
+            @RequestBody CardRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    );
 
     @GetMapping("/by-user/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -33,8 +39,7 @@ public interface CardRequestController {
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(
-            summary = "Обновить статус запроса",
-            description = "Доступно только для администраторов"
+            summary = "Обновить статус запроса"
     )
     CardRequestDto updateStatus(@PathVariable Long id, @RequestParam String status);
 }
